@@ -65,7 +65,7 @@
 
 - import_tasks: deploy_netbox.yml
 
-- name: Install uWSGI via pip
+- name: Install uWSGI via pip (outside venv, normal behavior)
   pip:
     name: uwsgi
     state: "{{ 'latest' if netbox_keep_uwsgi_updated else 'present' }}"
@@ -77,6 +77,22 @@
   retries: 2
   register: _netbox_uwsgi_install
   until: _netbox_uwsgi_install is succeeded
+  when: "not netbox_uwsgi_in_venv | bool"
+
+- name: Install uWSGI via pip (inside venv, new behavior)
+  pip:
+    name: uwsgi
+    state: "{{ 'latest' if netbox_keep_uwsgi_updated else 'present' }}"
+    umask: "0022"
+    virtualenv: "{{ netbox_virtualenv_path }}"
+  environment:
+    PATH: "/usr/local/bin:{{ _path }}"
+  notify:
+    - reload netbox.service
+  retries: 2
+  register: _netbox_uwsgi_install
+  until: _netbox_uwsgi_install is succeeded
+  when: "netbox_uwsgi_in_venv | bool"
 
 - name: Configure uWSGI NetBox application
   template:

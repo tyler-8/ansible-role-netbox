@@ -98,4 +98,6 @@ netbox_pip_constraints:
   # - 'MarkupSafe<2.1.0'
 
 netbox_keep_uwsgi_updated: false
+# Whether or not to install uwsgi in the NetBox venv
+netbox_uwsgi_in_venv: false
 netbox_uwsgi_options: {}
