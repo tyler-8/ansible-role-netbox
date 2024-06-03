@@ -4,6 +4,14 @@ netbox_config_path: "{{ netbox_current_path }}/netbox/netbox"
 netbox_virtualenv_path: "{{ netbox_current_path }}/venv-py3"
 netbox_uwsgi_cmd: "{{ netbox_virtualenv_path }}/bin/uwsgi"
 
+_netbox_default_config:
+  ALLOWED_HOSTS:
+    - localhost
+    - 127.0.0.1
+  MEDIA_ROOT: "{{ netbox_shared_path }}/media"
+  REPORTS_ROOT: "{{ netbox_shared_path }}/reports"
+  SCRIPTS_ROOT: "{{ netbox_shared_path }}/scripts"
+
 _netbox_storages_map:
   s3boto3: boto3
   apache_libcloud: "apache-libcloud"
