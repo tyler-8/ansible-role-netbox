@@ -135,25 +135,24 @@
 
 # local_settings.py
 - name: Copy NetBox local_settings.py into shared (ignore if it doesn't exist)
-  copy:
-    src: "{{ playbook_dir }}/files/netbox/local_settings.py"
+  ansible.builtin.copy:
+    src: "{{ netbox_local_settings_config_file }}"
     dest: "{{ netbox_shared_path }}/local_settings.py"
     owner: "{{ netbox_user }}"
     group: "{{ netbox_group }}"
   ignore_errors: yes
-
-- name: Check if local_settings.py file exists in shared
-  stat:
-    path: "{{ netbox_shared_path }}/local_settings.py"
-  register: netbox_local_settings_file_in_shared
+  when:
+    - netbox_local_settings_enabled
+  notify:
+    - reload netbox.service
 
 - name: Symlink/Remove NetBox local_settings.py file into/from the active NetBox release
   file:
-    src: "{{ netbox_shared_path + '/local_settings.py' if netbox_local_settings_file_in_shared.stat.exists else omit }}"
+    src: "{{ netbox_shared_path + '/local_settings.py' if netbox_local_settings_enabled else omit }}"
     dest: "{{ netbox_config_path }}/local_settings.py"
     owner: "{{ netbox_user }}"
     group: "{{ netbox_group }}"
-    state: "{{ 'link' if netbox_local_settings_file_in_shared.stat.exists else 'absent' }}"
+    state: "{{ 'link' if netbox_local_settings_enabled else 'absent' }}"
   notify:
     - reload netbox.service
 

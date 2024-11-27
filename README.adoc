@@ -401,6 +401,19 @@ role. If this is undesirable, consider toggling `netbox_superuser_enabled`.
 
 [source,yaml]
 ----
+netbox_local_settings_enabled: false
+netbox_local_settings_config_file: local_setting.py
+----
+
+Toggle `netbox_local_settings_enabled` to `true` to deploy local_settings.py for
+NetBox. `netbox_local_settings_config_file` should be the path to your file - by
+default, Ansible will search your playbook's `files/` directory for this.
+
+NOTE: The destination file will always be `local_settings.py`, the source file name
+can be unique.
+
+[source,yaml]
+----
 netbox_napalm_enabled: false
 netbox_napalm_packages:
   - napalm
