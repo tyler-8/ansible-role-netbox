@@ -74,8 +74,7 @@ netbox_requests_log: "file:{{ netbox_shared_path }}/requests.log"
 netbox_ldap_enabled: false
 netbox_ldap_config_template: netbox_ldap_config.py.j2
 
-netbox_local_settings_enabled: false
-netbox_local_settings_config_file: "netbox_local_settings.py"
+netbox_local_settings_file:
 
 netbox_napalm_enabled: false
 netbox_napalm_packages:
