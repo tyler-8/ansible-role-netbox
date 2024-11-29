@@ -1,5 +1,7 @@
 ---
 galaxy_info:
+  namespace: lae
+  role_name: netbox
   author: Musee Ullah
   description: Installs and configures NetBox, a DCIM suite, in a production setting.
   license: MIT
