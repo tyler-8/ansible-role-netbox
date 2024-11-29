@@ -133,6 +133,28 @@
   notify:
     - reload netbox.service
 
+# local_settings.py
+- name: Copy NetBox local_settings.py into shared (ignore if it doesn't exist)
+  ansible.builtin.copy:
+    src: "{{ netbox_local_settings_file }}"
+    dest: "{{ netbox_shared_path }}/local_settings.py"
+    owner: "{{ netbox_user }}"
+    group: "{{ netbox_group }}"
+  when:
+    - netbox_local_settings_file is defined
+  notify:
+    - reload netbox.service
+
+- name: Symlink/Remove NetBox local_settings.py file into/from the active NetBox release
+  ansible.builtin.file:
+    src: "{{ netbox_shared_path }}/local_settings.py"
+    dest: "{{ netbox_config_path }}/local_settings.py"
+    owner: "{{ netbox_user }}"
+    group: "{{ netbox_group }}"
+    state: "{{ 'link' if netbox_local_settings_file is defined else 'absent' }}"
+  notify:
+    - reload netbox.service
+
 - name: Copy NetBox scripts into SCRIPTS_ROOT
   copy:
     src: "{{ item.src }}"

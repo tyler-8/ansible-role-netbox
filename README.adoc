@@ -401,6 +401,19 @@ role. If this is undesirable, consider toggling `netbox_superuser_enabled`.
 
 [source,yaml]
 ----
+# netbox_local_settings_file: "{{ playbook_dir }}/files/netbox/local_settings.py"
+----
+
+If you need to override any settings or extend the functionality in NetBox' `settings.py`
+in a way that is not supported by the `configuration.py` (i.e. the `netbox_config` role variable),
+you can set `netbox_local_settings_file` to a local file path in your playbook to deploy a `local_settings.py` file within NetBox.
+This feature was https://github.com/netbox-community/netbox/issues/16127[introduced in NetBox v4.0.2].
+You may need to use this file for deploying certain NetBox plugins.
+
+NOTE: Commenting or removing this role variable from your playbook will remove `local_settings.py` from your NetBox deployment.
+
+[source,yaml]
+----
 netbox_napalm_enabled: false
 netbox_napalm_packages:
   - napalm
