@@ -126,6 +126,7 @@
 
     - name: Symlink/Remove NetBox LDAP configuration file into/from the active NetBox release
       ansible.builtin.file:
+        # Omitting the src attribute is necessary when state: absent
         src: "{{ netbox_shared_path + '/ldap_config.py' if netbox_ldap_enabled else omit }}"
         dest: "{{ netbox_config_path }}/ldap_config.py"
         owner: "{{ netbox_user }}"
@@ -146,7 +147,8 @@
 
     - name: Symlink/Remove NetBox local_settings.py file into/from the active NetBox release
       ansible.builtin.file:
-        src: "{{ netbox_shared_path }}/local_settings.py"
+        # Omitting the src attribute is necessary when state: absent
+        src: "{{ netbox_shared_path + '/local_settings.py' if netbox_local_settings_file is defined else omit }}"
         dest: "{{ netbox_config_path }}/local_settings.py"
         owner: "{{ netbox_user }}"
         group: "{{ netbox_group }}"
