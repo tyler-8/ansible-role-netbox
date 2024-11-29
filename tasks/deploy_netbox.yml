@@ -140,15 +140,14 @@
     dest: "{{ netbox_shared_path }}/local_settings.py"
     owner: "{{ netbox_user }}"
     group: "{{ netbox_group }}"
-  ignore_errors: yes
   when:
     - netbox_local_settings_file is defined
   notify:
     - reload netbox.service
 
 - name: Symlink/Remove NetBox local_settings.py file into/from the active NetBox release
-  file:
-    src: "{{ netbox_shared_path + '/local_settings.py' if netbox_local_settings_file is defined else omit }}"
+  ansible.builtin.file:
+    src: "{{ netbox_shared_path }}/local_settings.py"
     dest: "{{ netbox_config_path }}/local_settings.py"
     owner: "{{ netbox_user }}"
     group: "{{ netbox_group }}"
