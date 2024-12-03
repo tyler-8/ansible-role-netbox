@@ -86,6 +86,19 @@
     - restart netbox.service
     - restart netbox-rqworker.service
 
+# local_requirements.txt
+- name: Copy selected optional Python dependencies to local_requirements.txt
+  ansible.builtin.copy:
+    content: |
+      {% for dep in _netbox_python_deps %}
+      {{ dep }}
+      {% endfor %}  
+    dest: "{{ netbox_current_path }}/local_requirements.txt"
+  when: (_netbox_python_deps | length) > 0
+  notify:
+    - restart netbox.service
+    - restart netbox-rqworker.service
+
 - name: NetBox Configuration
   block:
     # configuration.py
