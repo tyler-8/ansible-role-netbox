@@ -94,6 +94,8 @@
       {{ dep }}
       {% endfor %}  
     dest: "{{ netbox_current_path }}/local_requirements.txt"
+    owner: "{{ netbox_user }}"
+    group: "{{ netbox_group }}"
   when: (_netbox_python_deps | length) > 0
   notify:
     - restart netbox.service
