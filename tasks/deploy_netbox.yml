@@ -97,9 +97,6 @@
     owner: "{{ netbox_user }}"
     group: "{{ netbox_group }}"
   when: (_netbox_python_deps | length) > 0
-  notify:
-    - restart netbox.service
-    - restart netbox-rqworker.service
 
 - name: NetBox Configuration
   block:
