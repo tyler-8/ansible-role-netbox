@@ -155,10 +155,16 @@ netbox_database_user: netbox
 #netbox_database_host: localhost
 netbox_database_port: 5432
 #netbox_database_socket: /var/run/postgresql
+#netbox_database_alt_socket: false
 ----
 
 It is *required* to configure either a socket directory (to communicate over UNIX sockets) or a host/password (to use TCP/IP).
 See the _Example Playbook_ section for more information on configuring the database.
+
+Setting `netbox_database_alt_socket` to `true` will skip the database connectivity check
+tasks and also set `netbox_database_port` alongside the socket connection for the
+database configuration. This will help with environments that may be running pgbouncer
+on the same server as NetBox.
 
 Note that these are used to configure `DATABASE` in `configuration.py`.
 
