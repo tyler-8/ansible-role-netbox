@@ -52,6 +52,7 @@
   when:
     - netbox_database_socket is defined
     - netbox_database_host is not defined
+    - not netbox_database_alt_socket
 
 - name: Ensure Postgres database exists (via TCP)
   community.postgresql.postgresql_db:

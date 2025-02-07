@@ -25,6 +25,9 @@ DATABASE = {
 {%      if netbox_database_password is defined %}
     'PASSWORD': '{{ netbox_database_password }}',
 {%      endif %}
+{% if netbox_database_alt_socket and netbox_database_socket is defined %}
+    'PORT': '{{ netbox_database_port }}',
+{% endif %}
     'HOST': '{{ netbox_database_socket }}',
 {% endif %}
     'CONN_MAX_AGE': {{ netbox_database_conn_age }},
