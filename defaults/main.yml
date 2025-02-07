@@ -22,6 +22,7 @@ netbox_database_user: netbox
 # netbox_database_host: localhost
 netbox_database_port: 5432
 # netbox_database_socket: /var/run/postgresql
+netbox_database_alt_socket: false
 netbox_database_conn_age: 0
 netbox_database_options: {}
 netbox_database_maintenance: "postgres"
