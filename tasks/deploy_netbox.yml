@@ -62,7 +62,7 @@
 - name: Install needed Python dependencies
   ansible.builtin.pip:
     requirements: "{{ netbox_shared_path }}/requirements.txt"
-    extra_args: "-c {{ netbox_shared_path }}/constraints.txt"
+    extra_args: "{{ (['-c {{ netbox_shared_path }}/constraints.txt'] + (['--no-cache-dir'] if netbox_skip_pip_cache else [])) | join(' ') }}"
     virtualenv: "{{ netbox_virtualenv_path }}"
   become: true
   become_user: "{{ netbox_user }}"
@@ -75,6 +75,7 @@
     name: "{{ item }}"
     state: present
     virtualenv: "{{ netbox_virtualenv_path }}"
+    extra_args: "{{ '--no-cache-dir' if netbox_skip_pip_cache else omit }}"
   become: true
   become_user: "{{ netbox_user }}"
   retries: 2
@@ -92,7 +93,7 @@
     content: |
       {% for dep in _netbox_python_deps %}
       {{ dep }}
-      {% endfor %}  
+      {% endfor %}
     dest: "{{ netbox_current_path }}/local_requirements.txt"
     owner: "{{ netbox_user }}"
     group: "{{ netbox_group }}"
